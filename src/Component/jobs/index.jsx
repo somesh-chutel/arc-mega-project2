@@ -1,7 +1,30 @@
+import Header from '../Header';
+import JobsFilterSection from '../JobsFilterSection';
+import DisplayAllJobs from '../DisplayAllJobs';
 import './index.css'
 
 
-const Jobs = ()=><h1>Jobs Section</h1>
+const Jobs = ()=>{
+
+
+    return (
+
+        <div className='Jobs-main-cont'>
+            <Header/>
+
+            <div className='filter-all-jobs-cont'>
+
+                    <JobsFilterSection/>
+
+                    <DisplayAllJobs/>
+
+            </div>
+
+        </div>
+
+
+    )
+}
 
 
 

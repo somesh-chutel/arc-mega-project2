@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import "./index.css";
 
 const Login = () => {
+
+  const navigate = useNavigate();
 
   const [allvalues,setValue] = useState({
     username:"",
@@ -9,6 +13,7 @@ const Login = () => {
     ShowErrorMsg:false,
     errorMsg:""
   });
+
 
   const onFetchuserDetails = async (event) => {
     event.preventDefault();
@@ -26,10 +31,10 @@ const Login = () => {
 
     const response = await fetch(url, options);
     const fetchData = await response.json();
-    console.log(response);
-    console.log(fetchData);
     if(response.ok===true){
       setValue({...allvalues,ShowErrorMsg:false})
+      Cookies.set("jwtToken",fetchData.jwt_token);
+      navigate("/");
     }
     else{
       setValue({...allvalues,ShowErrorMsg:true,errorMsg:fetchData.error_msg})
@@ -46,6 +51,12 @@ const Login = () => {
     setValue({...allvalues,password:event.target.value});
   };
 
+  const token = Cookies.get("jwtToken");
+  useEffect(()=>{
+    if(token!==undefined){
+      navigate("/");
+    }
+  })
   return (
     <div className="login-cont">
       <form className="form-cont" onSubmit={onFetchuserDetails}>
@@ -87,7 +98,7 @@ const Login = () => {
         <button type="submit" className="btn btn-primary">
           Submit
         </button>
-        {allvalues.ShowErrorMsg?(<p>{allvalues.errorMsg}</p>):null}
+        {allvalues.ShowErrorMsg?(<p className="err-msg">{`* ${allvalues.errorMsg}`}</p>):null}
       </form>
     </div>
   );

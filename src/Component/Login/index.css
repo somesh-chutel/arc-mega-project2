@@ -41,3 +41,6 @@
 .web-logo{
     width: 150px;
 }
+.err-msg{
+    color: red;
+}
