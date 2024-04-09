@@ -13,10 +13,12 @@ const Jobs = ()=>{
             <Header/>
 
             <div className='filter-all-jobs-cont'>
-
+                    <div className='filter-sec'>
                     <JobsFilterSection/>
-
+                    </div>
+                    <div className='Jobs-sec'>
                     <DisplayAllJobs/>
+                    </div>
 
             </div>
 

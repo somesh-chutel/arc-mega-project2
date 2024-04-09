@@ -26,7 +26,7 @@ const DisplayAllJobs =()=>{
 
             const response = await fetch(url,options);
             const fetchData = await response.json();
-            console.log(fetchData.jobs[0].title);
+            console.log(fetchData);
             if(response.ok===true){
                 setValues({...allvalues,allJobsList:fetchData.jobs});
             }
@@ -42,8 +42,10 @@ const DisplayAllJobs =()=>{
 
     return (
 
-        <div>
-
+        <div className='all-jobs-cont'>
+                <div className='w-75'>
+                    <input type="search" placeholder='Search' className='form-control '/>
+                </div>
                 <ul>
 
                     {allvalues.allJobsList.map(each=>

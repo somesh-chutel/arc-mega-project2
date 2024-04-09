@@ -10,11 +10,9 @@
 }
 .filter-sec{
     width: 30%;
-    height: 100vh;
-    border: 1px solid white;
+    min-height: 100vh;
 }
 .Jobs-sec{
     width: 60%;
-    height: 100vh;
-    border: 1px solid rgb(216, 199, 199);
+    min-height: 100vh;
 }
