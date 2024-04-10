@@ -1,34 +1,78 @@
-import Header from '../Header';
-import JobsFilterSection from '../JobsFilterSection';
-import DisplayAllJobs from '../DisplayAllJobs';
-import './index.css'
+import { useState, useEffect } from "react";
+import Cookies from'js-cookie';
+import Header from "../Header";
+import JobsFilterSection from "../JobsFilterSection";
+import JobsCard from "../jobsCard";
+import "./index.css";
 
 
-const Jobs = ()=>{
+const Jobs = () => {
+  const [allvalues, setValues] = useState({
+    allJobsList: [],
+    searchInput:"",
+    emptype: [],
+    minPakage: "",
+  });
 
+  useEffect(() => {
+    const fetchAllJobsDetails = async () => {
+      const token = Cookies.get("jwtToken");
 
-    return (
+      const url = `https://apis.ccbp.in/jobs?employment_type=${allvalues.emptype}&minimum_package=${allvalues.minPakage}&search=${allvalues.searchInput}`;
+      const options = {
+        method: "Get",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
 
-        <div className='Jobs-main-cont'>
-            <Header/>
+      const response = await fetch(url, options);
+      const fetchData = await response.json();
+      console.log(fetchData);
+      if (response.ok === true) {
+        setValues({ ...allvalues, allJobsList: fetchData.jobs });
+      }
+    };
 
-            <div className='filter-all-jobs-cont'>
-                    <div className='filter-sec'>
-                    <JobsFilterSection/>
-                    </div>
-                    <div className='Jobs-sec'>
-                    <DisplayAllJobs/>
-                    </div>
+    fetchAllJobsDetails();
+  }, [allvalues.searchInput,allvalues.emptype]);
 
-            </div>
+  const onChangeUserSearch = (event) => {
+    setValues({ ...allvalues, searchInput: event.target.value });
+  };
 
+  const onChangeEmpType = (value)=>{
+        setValues({...allvalues,emptype:value});
+  }
+
+  return (
+    <div className="Jobs-main-cont">
+      <Header />
+
+      <div className="filter-all-jobs-cont">
+        <div className="filter-sec">
+          <JobsFilterSection changeEmpType={onChangeEmpType}/>
         </div>
-
-
-    )
-}
-
-
-
+        <div className="Jobs-sec">
+          <div className="all-jobs-cont">
+            <div className="w-75">
+              <input
+                type="search"
+                placeholder="Search"
+                className="form-control"
+                onKeyDown={onChangeUserSearch}
+              />
+            </div>
+            <ul>
+              {allvalues.allJobsList.map((each) => (
+                <JobsCard jobsDetails={each} key={each.id} />
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Jobs;
