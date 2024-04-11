@@ -41,8 +41,14 @@ const Jobs = () => {
     setValues({ ...allvalues, searchInput: event.target.value });
   };
 
-  const onChangeEmpType = (value)=>{
-        setValues({...allvalues,emptype:value});
+  const onChangeEmpType = (value,isChecked)=>{
+    if(isChecked){
+      setValues({...allvalues,emptype:[...allvalues.emptype,value]});//--->["xyz"]--->[...]--->"xyz",value--->["xyz",value,value]
+    }
+    else{
+      setValues({...allvalues,emptype:allvalues.emptype.filter(each=>each!==value)})
+    }
+        
   }
 
   return (
@@ -63,11 +69,13 @@ const Jobs = () => {
                 onKeyDown={onChangeUserSearch}
               />
             </div>
+            
             <ul>
               {allvalues.allJobsList.map((each) => (
                 <JobsCard jobsDetails={each} key={each.id} />
               ))}
             </ul>
+            
           </div>
         </div>
       </div>

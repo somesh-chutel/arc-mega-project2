@@ -22,3 +22,6 @@
     width: 60%;
     min-height: 100vh;
 }
+.jobs-link{
+    text-decoration: none;
+}

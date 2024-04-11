@@ -75,7 +75,7 @@ const JobsFilterSection = (props) => {
   const renderEmploymentTypesList = () => {
 
     const onChangeEmpType = (event)=>{
-      changeEmpType(event.target.value);
+      changeEmpType(event.target.value,event.target.checked);
     }
 
     
